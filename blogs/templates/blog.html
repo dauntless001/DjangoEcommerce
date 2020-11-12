@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% block sitetitle %}Blogs{% endblock %}
+{% block content %}
+{% load static %}
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						<h2>Category</h2>
+						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											Sportswear
+										</a>
+									</h4>
+								</div>
+								<div id="sportswear" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+											<li><a href="">Nike </a></li>
+											<li><a href="">Under Armour </a></li>
+											<li><a href="">Adidas </a></li>
+											<li><a href="">Puma</a></li>
+											<li><a href="">ASICS </a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordian" href="#mens">
+											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											Mens
+										</a>
+									</h4>
+								</div>
+								<div id="mens" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+											<li><a href="">Fendi</a></li>
+											<li><a href="">Guess</a></li>
+											<li><a href="">Valentino</a></li>
+											<li><a href="">Dior</a></li>
+											<li><a href="">Versace</a></li>
+											<li><a href="">Armani</a></li>
+											<li><a href="">Prada</a></li>
+											<li><a href="">Dolce and Gabbana</a></li>
+											<li><a href="">Chanel</a></li>
+											<li><a href="">Gucci</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordian" href="#womens">
+											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											Womens
+										</a>
+									</h4>
+								</div>
+								<div id="womens" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+											<li><a href="">Fendi</a></li>
+											<li><a href="">Guess</a></li>
+											<li><a href="">Valentino</a></li>
+											<li><a href="">Dior</a></li>
+											<li><a href="">Versace</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Kids</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Fashion</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Households</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Interiors</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Clothing</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Bags</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Shoes</a></h4>
+								</div>
+							</div>
+						</div><!--/category-products-->
+										
+						<div class="shipping text-center"><!--shipping-->
+							<img src="{% static 'images/home/shipping.jpg' %}" alt="" />
+						</div><!--/shipping-->
+					</div>
+				</div>
+				<div class="col-sm-9">
+					<div class="blog-post-area">
+						<h2 class="title text-center">Latest From our Blog</h2>
+						{% for blog in blogs %}
+						<div class="single-blog-post">
+							<h3>{{blog.title.upper}}</h3>
+							<div class="post-meta">
+								<ul>
+									<li><i class="fa fa-user"></i> {{blog.author.username.title}}</li>
+									<li><i class="fa fa-clock-o"></i> {{blog.time_created}}</li>
+									<li><i class="fa fa-calendar"></i> {{blog.date_created}}</li>
+								</ul>
+							</div>
+							<a href="">
+								<img src="{{blog.image.url}}" alt="">
+							</a>
+							<p>{{ blog.content | truncatewords:60}}</p>
+							<a  class="btn btn-primary" href="{{blog.get_absolute_url}}">Read More</a>
+						</div>
+						{% endfor %}
+						<div class="pagination-area">
+							<ul class="pagination">
+								{% if blogs.has_previous %}
+								<li><a href="?page=1" >1</a></li>
+								<li><a href="?page={{ blogs.previous_page_number }}">Prev</a></li> 
+						        {% endif %}
+						        <li><a href="" class="active">{{ blogs.number }}</a></li>
+						        {% if blogs.has_next %}
+						        <li><a href="?page={{ blogs.next_page_number }}">Next</a></li>
+						        <li><a href="?page={{ blogs.paginator.num_pages }}">
+						          {{ blogs.paginator.num_pages }}</a></li>
+						        {% endif %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

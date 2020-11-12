@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% block content %}
+
+	<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="#">Home</a></li>
+				  <li class="active">Check out</li>
+				</ol>
+			</div><!--/breadcrums-->
+
+			
+
+			<div class="shopper-informations">
+				
+				<!-- <form method="post">
+					{% csrf_token %}
+					<div class="row">
+						<div class="col-sm-5">
+							<p class="lead">Bill To</p>
+							<div class="row">
+								<div class="form-group col-sm-6">
+									{{form.company_name}}
+								</div>
+								<div class="form-group col-sm-6">
+									{{form.postal_code}}
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-sm-6" id="email">
+									{{form.email}}
+								</div>
+								<div class="form-group col-sm-6">
+									{{form.country}}
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-sm-6">
+									{{form.phone_number}}
+								</div>
+								<div class="form-group col-sm-6">
+									{{form.name}}
+								</div>
+								
+							</div>
+							<div class="row">
+								<div class="form-group col-sm-6">
+									{{form.shipping_address}}
+								</div>
+								<div class="form-group col-sm-6">
+									{{form.billing_address}}
+								</div>
+							</div>
+							
+						</div>
+						<div class="col-sm-4">
+							<div class="order-message">
+								<p>Shipping Order</p>
+								{{form.description}}
+								{{form.ship_to_billing}} Ship to Billing
+								
+							</div>	
+							
+							<input type="submit" value="Save" class="btn btn-fefault">
+						</div>
+
+					</div>
+				</form> -->
+			</div>
+			<div class="review-payment">
+				<h2>Review & Payment</h2>
+			</div>
+
+			<div class="table-responsive cart_info">
+				{% if cart %}
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description"></td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td class="total">Total</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in cart %}
+						<tr>
+							<td class="cart_product">
+								<a href=""><img src="{{item.item.image.url}}" alt="" width="70px" height="70px"></a>
+							</td>
+							<td class="cart_description">
+								<h4><a href="">{{item.item.name}}</a></h4>
+							</td>
+							<td class="cart_price">
+								<p>${{item.item.amount}}</p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+									<p>{{item.quantity}}</p>
+								</div>
+							</td>
+							<td class="cart_total">
+								<p class="cart_total_price">${{item.get_total_item_price}}</p>
+							</td>
+							<td class="cart_delete">
+								<a class="cart_quantity_delete" href="{% url 'products:remove_from_cart' item.id %}"><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+						{% endfor %}	
+					</tbody>
+				</table>
+				{% else %}
+				<div class="row">
+					<div class="col-12">
+						<h3 class="text-center">Cart Empty</h3>
+						<div class="text-center">
+							<a href="{% url 'products:products_list'%}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Shop</a>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+	{% if cart %}
+	<section id="do_action">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+							<li>Total <span>${{total_amount}}</span></li>
+						</ul>							
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--/#do_action-->
+	{% endif %}
+		<div class="payment-options text-center">
+			<form id="paymentForm">
+				<div class="form-group">
+				  <input type="hidden" value="{{request.user.email}}" id="email-address" required />
+				</div>
+				
+				<div class="form-group">
+				  <input type="hidden" value="{{total_amount}}" id="amount">
+				</div>
+				<div class="form-submit">
+				  <button type="submit" onclick="payWithPaystack()" class="btn btn-fefault"> Pay </button>
+				</div>
+			  </form>
+		</div>
+	</section> <!--/#cart_items-->
+{% endblock %}
